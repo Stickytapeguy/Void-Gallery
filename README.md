@@ -1,18 +1,3 @@
-```
-     ______                                       ______             __  __                               
-    /      \                                     /      \           /  |/  |                              
-   /$$$$$$  | __    __   ______   ______        /$$$$$$  |  ______  $$ |$$ |  ______    ______   __    __ 
-   $$ |__$$ |/  |  /  | /      \ /      \       $$ | _$$/  /      \ $$ |$$ | /      \  /      \ /  |  /  |
-   $$    $$ |$$ |  $$ |/$$$$$$  |$$$$$$  |      $$ |/    | $$$$$$  |$$ |$$ |/$$$$$$  |/$$$$$$  |$$ |  $$ |
-   $$$$$$$$ |$$ |  $$ |$$ |  $$/ /    $$ |      $$ |$$$$ | /    $$ |$$ |$$ |$$    $$ |$$ |  $$/ $$ |  $$ |
-   $$ |  $$ |$$ \__$$ |$$ |     /$$$$$$$ |      $$ \__$$ |/$$$$$$$ |$$ |$$ |$$$$$$$$/ $$ |      $$ \__$$ |
-   $$ |  $$ |$$    $$/ $$ |     $$    $$ |      $$    $$/ $$    $$ |$$ |$$ |$$       |$$ |      $$    $$ |
-   $$/   $$/  $$$$$$/  $$/       $$$$$$$/        $$$$$$/   $$$$$$$/ $$/ $$/  $$$$$$$/ $$/        $$$$$$$ |
-                                                                                                /  \__$$ |
-                                                                                                $$    $$/ 
-                                                                                                 $$$$$$/  
-```
-
 > A clean, ad-free photo and video gallery for Windows. No OneDrive nagging. No Clipchamp. Just your photos.
 
 ![Platform](https://img.shields.io/badge/platform-Windows-blue)
@@ -22,9 +7,9 @@
 
 ---
 
-## What is Aura Gallery?
+## What is Void Gallery?
 
-Aura Gallery is a Windows desktop photo and video viewer built as a clean alternative to Microsoft Photos. No ads, no OneDrive promotion, no Clipchamp pop-ups — just a fast, beautiful gallery for your local photos and videos.
+Void Gallery is a Windows desktop photo and video viewer built as a clean alternative to Microsoft Photos. No ads, no OneDrive promotion, no Clipchamp pop-ups — just a fast, beautiful gallery for your local photos and videos.
 
 ---
 
@@ -61,7 +46,7 @@ Aura Gallery is a Windows desktop photo and video viewer built as a clean altern
 git clone https://github.com/Stickytapeguy/Aura-Gallery.git
 ```
 
-2. Open `Aura Gallery.slnx` in Visual Studio
+2. Open `Aura Gallery.slnx` in your prefered IDE
 
 3. Restore NuGet packages (VS does this automatically on first build)
 
