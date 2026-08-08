@@ -100,4 +100,4 @@ Void Gallery is currently in early development. Core photo loading and the main 
 
 ## License
 
-This project is currently unlicensed — all rights reserved.
+MIT — see [LICENSE](LICENSE) for details.
