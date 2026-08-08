@@ -58,10 +58,10 @@ Void Gallery is a Windows desktop photo and video viewer built as a clean altern
 
 1. Clone the repo:
 ```bash
-git clone https://github.com/Stickytapeguy/Aura-Gallery.git
+git clone https://github.com/Stickytapeguy/Void-Gallery.git
 ```
 
-2. Open `Aura Gallery.slnx` in your prefered IDE
+2. Open `Void Gallery.slnx` in your prefered IDE
 
 3. Restore NuGet packages (VS does this automatically on first build)
 
@@ -83,7 +83,7 @@ git clone https://github.com/Stickytapeguy/Aura-Gallery.git
 
 ## Project Status
 
-Aura Gallery is currently in early development. Core photo loading and the main grid view are working. Many features are still being built.
+Void Gallery is currently in early development. Core photo loading and the main grid view are working. Many features are still being built.
 
 | Feature | Status |
 |---|---|
