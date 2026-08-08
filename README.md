@@ -1,3 +1,4 @@
+```plaintext
  __     __           __        __         ______             __  __                               
 /  |   /  |         /  |      /  |       /      \           /  |/  |                              
 $$ |   $$ | ______  $$/   ____$$ |      /$$$$$$  |  ______  $$ |$$ |  ______    ______   __    __ 
@@ -10,7 +11,7 @@ $$  \ /$$//$$$$$$  |$$ |/$$$$$$$ |      $$ |/    | $$$$$$  |$$ |$$ |/$$$$$$  |/$
                                                                                         /  \__$$ |
                                                                                         $$    $$/ 
                                                                                          $$$$$$/  
-
+```
 
 > A clean, ad-free photo and video gallery for Windows. No OneDrive nagging. No Clipchamp. Just your photos.
 
