@@ -3,46 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Void Gallery — Your photos. Nothing else.</title>
+    <title>Void Frame — Your photos. Nothing else.</title>
+
+    <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Google+Sans+Flex:opsz,wght,ROND@6..144,100..1000,0..100&display=swap" rel="stylesheet">
+
     <style>
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ==========================================================================
+           1. RESET & CSS VARIABLES
+           ========================================================================== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         a { text-decoration: none; }
 
         :root {
+            /* Palette Tokens */
             --bg: #050508;
-            --surface: rgba(21, 21, 21, 0.50); /* Base Fill #151515 at 50% opacity */
-            --surface-solid: #151515; /* Base Fill */
-            --border: rgba(217,218,230,0.08);
-            --text: #D9DAE6; /* Base White */
+            --surface: rgba(255, 255, 255, 0.03);
+            --surface-solid: #151515;
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #D9DAE6;
             --muted: rgba(217, 218, 230, 0.55);
 
-            /* ORIGINAL GRADIENT PALETTE (restored) */
-            --accent-b: #DC31E4; /* 0% Step */
-            --accent-a: #CD61FF; /* 52% Step */
-            --accent-c: #40B6FF; /* 100% Step */
+            /* Accents */
+            --accent: #D9DAE6;
 
-            /* Design System Tokens */
+            /* Previous Corner Radii Restored */
             --radius-btn: 12px;
-            --radius-card: 16px;
+            --radius-card: 24px;
             --radius-dock: 24px;
             --blur-radius: 15px;
-	    --shadow: 0 4px 24px rgba(0,0,0,0.25);
         }
 
-        .footer {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            padding: 40px 24px 32px;
-            color: var(--muted);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
+        /* ==========================================================================
+           2. BASE & LAYOUT
+           ========================================================================== */
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg);
+            scrollbar-width: none;
         }
-
-        html { scroll-behavior: smooth; }
+        html::-webkit-scrollbar { display: none; }
 
         body {
             background: var(--bg);
@@ -50,12 +56,59 @@
             font-family: 'Google Sans Flex', sans-serif;
             font-variation-settings: 'ROND' 50;
             overflow-x: hidden;
+            position: relative;
         }
 
-        /* AMBIENT BLOBS */
+        section { position: relative; z-index: 1; }
+
+        /* ==========================================================================
+           3. OVERLAY SCROLLBAR
+           ========================================================================== */
+        #custom-scrollbar-track {
+            position: fixed;
+            top: 4px;
+            bottom: 4px;
+            right: 0;
+            width: 16px;
+            z-index: 9999;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        #custom-scrollbar-thumb {
+            position: absolute;
+            top: 0;
+            right: 3px;
+            width: 4px;
+            border-radius: 10px;
+            background-color: rgba(217, 218, 230, 0.35);
+            cursor: grab;
+            will-change: transform, width, right;
+            transition: width 0.15s ease, right 0.15s ease, background-color 0.15s ease;
+        }
+
+        #custom-scrollbar-track:hover #custom-scrollbar-thumb,
+        #custom-scrollbar-thumb.dragging {
+            width: 8px;
+            right: 4px;
+            background-color: rgba(217, 218, 230, 0.75);
+        }
+
+        #custom-scrollbar-thumb:active,
+        #custom-scrollbar-thumb.dragging {
+            cursor: grabbing;
+            background-color: rgba(217, 218, 230, 0.95);
+        }
+
+        /* ==========================================================================
+           4. AMBIENT BLOBS
+           ========================================================================== */
         .blob-field {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: 0;
             pointer-events: none;
             overflow: hidden;
@@ -65,47 +118,21 @@
             position: absolute;
             border-radius: 50%;
             filter: blur(var(--blur-radius));
-            opacity: 0.22;
-            animation: float linear infinite;
+            opacity: 0.18;
+            will-change: transform;
+            top: 0;
+            left: 0;
         }
 
-        .blob-1 {
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, var(--text), transparent 70%);
-            top: -100px; left: -150px;
-            animation-duration: 25s;
-        }
-        .blob-2 {
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, var(--text), transparent 70%);
-            top: 20%; right: -100px;
-            animation-duration: 30s;
-            animation-delay: -10s;
-        }
-        .blob-3 {
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, var(--text), transparent 70%);
-            bottom: 10%; left: 20%;
-            animation-duration: 20s;
-            animation-delay: -5s;
-        }
-        .blob-4 {
-            width: 350px; height: 350px;
-            background: radial-gradient(circle, var(--text), transparent 70%);
-            bottom: 30%; right: 15%;
-            animation-duration: 35s;
-            animation-delay: -15s;
-        }
+        .blob-1 { width: 450px; height: 450px; background: radial-gradient(circle, var(--text), transparent 70%); }
+        .blob-2 { width: 420px; height: 420px; background: radial-gradient(circle, var(--text), transparent 70%); }
+        .blob-3 { width: 380px; height: 380px; background: radial-gradient(circle, var(--text), transparent 70%); }
+        .blob-4 { width: 400px; height: 400px; background: radial-gradient(circle, var(--text), transparent 70%); }
+        .blob-5 { width: 360px; height: 360px; background: radial-gradient(circle, var(--text), transparent 70%); }
 
-        @keyframes float {
-            0%   { transform: translate(0, 0) scale(1); }
-            25%  { transform: translate(30px, -40px) scale(1.05); }
-            50%  { transform: translate(-20px, 20px) scale(0.97); }
-            75%  { transform: translate(40px, 30px) scale(1.03); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-
-        /* FLOATING NAVIGATION DOCK */
+        /* ==========================================================================
+           5. NAVIGATION DOCK
+           ========================================================================== */
         .nav-dock {
             position: fixed;
             top: 18px;
@@ -118,11 +145,11 @@
             align-items: center;
             justify-content: space-between;
             padding: 12px;
-            background: var(--surface);
-            backdrop-filter: blur(var(--blur-radius));
+            background: rgba(5, 5, 8, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             border-radius: var(--radius-dock);
-            box-shadow: 0 8px 40px rgba(0,0,0,0.3);
             transition: all 0.9s cubic-bezier(0.29, 1.37, 0.74, 1);
         }
 
@@ -149,9 +176,8 @@
         .nav-logo:hover { opacity: 0.8; }
         .nav-logo:active { transform: scale(0.95); }
 
-        /* Base styles (Outside any @media) */
         .nav-links {
-            display: flex; /* Ensures they are visible on desktop */
+            display: flex;
             justify-content: center;
             align-items: center;
             gap: 36px;
@@ -175,7 +201,6 @@
             align-items: center;
         }
 
-        /* TEXT LINK FOR CTA BUTTON IN NAV */
         .nav-cta {
             color: var(--muted) !important;
             font-size: 0.9rem !important;
@@ -187,10 +212,7 @@
             display: inline-block;
         }
 
-        .nav-cta:hover {
-            color: var(--text) !important;
-        }
-
+        .nav-cta:hover { color: var(--text) !important; }
         .nav-cta:active { transform: scale(0.95) !important; }
 
         .burger {
@@ -212,10 +234,9 @@
             transition: 0.28s;
         }
 
-        /* SECTIONS */
-        section { position: relative; z-index: 1; }
-
-        /* HERO */
+        /* ==========================================================================
+           6. HERO SECTION
+           ========================================================================== */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -231,7 +252,6 @@
             align-items: center;
             gap: 8px;
             background: var(--surface);
-            backdrop-filter: blur(var(--blur-radius));
             border: 1px solid var(--border);
             border-radius: var(--radius-btn);
             padding: 6px 16px;
@@ -246,7 +266,7 @@
         .hero-badge span {
             width: 6px; height: 6px;
             border-radius: 50%;
-            background: var(--accent-c);
+            background: var(--accent);
             display: inline-block;
             animation: pulse 2s ease infinite;
         }
@@ -266,9 +286,7 @@
             animation: fadeUp 0.8s ease 0.1s both;
         }
 
-        .hero-title .grad {
-            color: var(--text);
-        }
+        .hero-title .grad { color: var(--text); }
 
         .hero-sub {
             font-size: clamp(1rem, 2vw, 1.25rem);
@@ -280,7 +298,6 @@
             animation: fadeUp 0.8s ease 0.2s both;
         }
 
-        /* HERO BUTTON ELASTIC SPRING ENGINE */
         .hero-buttons {
             display: flex;
             gap: 16px;
@@ -302,14 +319,12 @@
             font-weight: 400;
             text-decoration: none;
             box-sizing: border-box;
-
-            /* Custom spring curve handles the elastic translate bounce */
             transition:
-                transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-                opacity 0.15s linear,
-                background 0.2s ease,
-                border-color 0.2s ease,
-                color 0.2s ease;
+                    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                    opacity 0.15s linear,
+                    background 0.2s ease,
+                    border-color 0.2s ease,
+                    color 0.2s ease;
         }
 
         .btn-primary {
@@ -327,27 +342,23 @@
 
         .btn-donate {
             background: transparent;
-            border: 1px solid rgba(255,255,255,0.15);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: var(--muted);
             font-size: 0.85rem;
         }
 
-        /* 1. Elevates out with spring overshoot */
-        .btn-primary:hover, .btn-secondary:hover, .btn-donate:hover {
-            transform: translateY(-4px);
-        }
-
-        .btn-secondary:hover { background: rgba(255,255,255,0.08); }
-        .btn-donate:hover { border-color: rgba(255,255,255,0.3); color: var(--text); }
-
-        /* 2. Snaps flat back to original Y plane & dims down to 0.8 opacity instantly on click */
+        .btn-primary:hover, .btn-secondary:hover, .btn-donate:hover { transform: translateY(-4px); }
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.08); }
+        .btn-donate:hover { border-color: rgba(255, 255, 255, 0.3); color: var(--text); }
         .btn-primary:active, .btn-secondary:active, .btn-donate:active {
             transform: translateY(0px);
             opacity: 0.8;
-            transition: transform 0.08s linear, opacity 0.08s linear; /* Fast track collapse */
+            transition: transform 0.08s linear, opacity 0.08s linear;
         }
 
-        /* SCREENSHOT LAYOUT */
+        /* ==========================================================================
+           7. SCREENSHOT & CARDS
+           ========================================================================== */
         .screenshot-wrap {
             position: relative;
             z-index: 1;
@@ -361,7 +372,6 @@
             max-width: 1400px;
             aspect-ratio: 16/9;
             background: var(--surface);
-            backdrop-filter: blur(var(--blur-radius));
             border: 1px solid var(--border);
             border-radius: var(--radius-card);
             display: flex;
@@ -379,7 +389,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(135deg, rgba(217,218,230,0.05) 0%, transparent 50%, rgba(217,218,230,0.05) 100%);
+            background: linear-gradient(135deg, rgba(217, 218, 230, 0.03) 0%, transparent 50%, rgba(217, 218, 230, 0.03) 100%);
         }
 
         .screenshot-glow {
@@ -388,10 +398,10 @@
             transform: translateX(-50%);
             width: 60%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-b), var(--accent-a), transparent);
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
 
-        /* FEATURES INTERACTION MATRIX */
+        /* Features */
         .features {
             padding: 80px 32px 120px;
             max-width: 1400px;
@@ -424,7 +434,6 @@
 
         .feature-card {
             background: var(--surface);
-            backdrop-filter: blur(var(--blur-radius));
             border: 1px solid var(--border);
             border-radius: var(--radius-card);
             padding: 36px;
@@ -434,7 +443,6 @@
         }
 
         .feature-icon { font-size: 1.8rem; margin-bottom: 20px; display: block; }
-
         .feature-title {
             font-family: 'Syne', sans-serif;
             font-size: 1.1rem;
@@ -442,7 +450,6 @@
             margin-bottom: 10px;
             letter-spacing: -0.01em;
         }
-
         .feature-desc {
             color: var(--muted);
             font-size: 0.9rem;
@@ -450,7 +457,7 @@
             font-weight: 300;
         }
 
-        /* PHILOSOPHY CONTAINER */
+        /* Philosophy */
         .philosophy {
             padding: 80px 32px 120px;
             max-width: 1400px;
@@ -459,9 +466,8 @@
 
         .philosophy-inner {
             background: var(--surface);
-            backdrop-filter: blur(var(--blur-radius));
             border: 1px solid var(--border);
-            border-radius: 24px;
+            border-radius: var(--radius-card);
             padding: 72px;
             position: relative;
             overflow: hidden;
@@ -473,7 +479,7 @@
             top: -1px; left: 10%;
             width: 40%;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent-a), transparent);
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
         }
 
         .philosophy-grid {
@@ -484,7 +490,6 @@
         }
 
         .philosophy-text .section-title { margin-bottom: 24px; }
-
         .philosophy-text p {
             color: var(--muted);
             font-size: 1rem;
@@ -504,7 +509,7 @@
             align-items: flex-start;
             gap: 16px;
             padding: 20px 24px;
-            background: rgba(255,255,255,0.02);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border);
             border-radius: var(--radius-btn);
             font-size: 0.9rem;
@@ -518,7 +523,7 @@
             margin-top: 1px;
         }
 
-        /* PIPELINE DEVELOPMENT STATUS */
+        /* Status */
         .status {
             padding: 80px 32px 120px;
             max-width: 1400px;
@@ -534,7 +539,6 @@
 
         .status-item {
             background: var(--surface);
-            backdrop-filter: blur(var(--blur-radius));
             border: 1px solid var(--border);
             border-radius: var(--radius-btn);
             padding: 20px 24px;
@@ -549,7 +553,17 @@
         .dot-wip  { background: #facc15; box-shadow: 0 0 8px #facc1566; }
         .dot-plan { background: var(--muted); }
 
-        /* ENGINE SCROLL KEYFRAMES */
+        .footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 40px 24px 32px;
+            color: var(--muted);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Animations */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(24px); }
             to   { opacity: 1; transform: translateY(0); }
@@ -566,12 +580,62 @@
             transform: translateY(0);
         }
 
-        /* VIEWPORT BREAKPOINTS */
+        /* ==========================================================================
+           8. LEFT SECTION RAIL
+           ========================================================================== */
+        #section-rail {
+            position: fixed;
+            top: 50%;
+            left: 16px;
+            transform: translateY(-50%);
+            z-index: 999;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            pointer-events: auto;
+        }
+
+        .rail-tick {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .tick-line {
+            width: 14px;
+            height: 2px;
+            background-color: rgba(217, 218, 230, 0.25);
+            border-radius: 2px;
+            transition: width 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
+        }
+
+        .tick-label {
+            font-size: 0.75rem;
+            color: var(--muted);
+            opacity: 0;
+            transform: translateX(-6px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .rail-tick:hover .tick-line { width: 24px; background-color: rgba(217, 218, 230, 0.85); }
+        .rail-tick:hover .tick-label { opacity: 1; transform: translateX(0); }
+        .rail-tick.active .tick-line { width: 28px; background-color: var(--text); box-shadow: 0 0 8px rgba(217, 218, 230, 0.4); }
+        .rail-tick.active .tick-label { color: var(--text); opacity: 0.8; }
+
+        /* ==========================================================================
+           9. MEDIA QUERIES & MOBILE
+           ========================================================================== */
         @media(max-width: 1000px) and (min-width: 761px) {
             .features-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media(max-width: 760px) {
+            #section-rail { display: none; }
+
             .hero, .features, .philosophy, .status, .screenshot-wrap { padding-left: 12px; padding-right: 12px; }
             .hero { padding-bottom: 60px; }
             .screenshot-wrap { padding-bottom: 60px; }
@@ -582,7 +646,13 @@
             .philosophy-grid { grid-template-columns: 1fr; gap: 42px; }
             .philosophy-inner { padding: 42px 24px; }
 
-            /* HARD REALIGNMENT FOR RESPONSIVE BAR */
+            .hero img {
+                width: 240px !important;
+                height: 240px !important;
+            }
+
+            .hero .reveal { margin-bottom: 20px !important; }
+
             .nav-dock {
                 width: calc(100vw - 24px);
                 display: flex;
@@ -592,8 +662,7 @@
                 padding: 12px;
                 overflow: hidden;
                 align-items: stretch;
-
-                /* 1. THE CLOSING CURVE (Smaller Bounce) */
+                border-radius: 28px;
                 transition: all 0.7s cubic-bezier(0.29, 1.15, 0.74, 1);
             }
 
@@ -622,13 +691,10 @@
             }
 
             .nav-dock.open {
-                max-height: 440px; /* 3. Raised to give the opening bounce more physical headroom */
-                background: rgba(8, 8, 16, 0.94);
-                border: 1px solid rgba(255,255,255,0.15);
+                max-height: 440px;
+                background: rgba(5, 5, 8, 0.95);
                 padding: 16px;
-
-                /* 2. THE OPENING CURVE (Bigger, punchier bounce) */
-                transition: all 0.7s cubic-bezier(1,4,.2,1)
+                transition: all 0.7s cubic-bezier(1, 4, .2, 1);
             }
 
             .nav-dock.open .nav-links { opacity: 1; pointer-events: auto; }
@@ -643,188 +709,417 @@
             }
 
             .nav-dock.open .nav-cta-wrap { opacity: 1; pointer-events: auto; }
-
-            .nav-dock.open .nav-cta {
-                transform: none !important;
-            }
-            .nav-dock.open .nav-cta:hover {
-                transform: none !important;
-            }
-            .nav-dock.open .nav-cta:active {
-                transform: scale(0.95) !important;
-            }
+            .nav-dock.open .nav-cta { transform: none !important; }
+            .nav-dock.open .nav-cta:hover { transform: none !important; }
+            .nav-dock.open .nav-cta:active { transform: scale(0.95) !important; }
         }
-
-        @media(max-width: 760px) {
-    /* Shrink the massive icon for mobile */
-    .hero img {
-        width: 240px !important;
-        height: 240px !important;
-    }
-
-    /* Maybe tighten the spacing too so it doesn't take up the whole screen */
-    .hero .reveal {
-        margin-bottom: 20px !important;
-    }
-}
     </style>
 </head>
 <body>
 
-    <div class="blob-field">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-        <div class="blob blob-4"></div>
+<!-- LEFT SECTION RAIL -->
+<div id="section-rail">
+    <a href="#hero" class="rail-tick active" data-label="Hero">
+        <span class="tick-line"></span>
+        <span class="tick-label">Hero</span>
+    </a>
+    <a href="#features" class="rail-tick" data-label="Features">
+        <span class="tick-line"></span>
+        <span class="tick-label">Features</span>
+    </a>
+    <a href="#philosophy" class="rail-tick" data-label="Philosophy">
+        <span class="tick-line"></span>
+        <span class="tick-label">Philosophy</span>
+    </a>
+    <a href="#status" class="rail-tick" data-label="Status">
+        <span class="tick-line"></span>
+        <span class="tick-label">Status</span>
+    </a>
+</div>
+
+<!-- OVERLAY SCROLLBAR -->
+<div id="custom-scrollbar-track">
+    <div id="custom-scrollbar-thumb"></div>
+</div>
+
+<!-- 5 AMBIENT BLOBS -->
+<div class="blob-field">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+    <div class="blob blob-5"></div>
+</div>
+
+<!-- DOCK NAVIGATION -->
+<nav class="nav-dock">
+    <div class="nav-dock-header">
+        <a href="#hero" class="nav-logo">Void Frame</a>
+        <button class="burger" id="burgerBtn" aria-label="Toggle Navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
     </div>
 
-    <nav class="nav-dock">
-        <div class="nav-dock-header">
-            <a href="#" class="nav-logo">Void Gallery</a>
-            <button class="burger" id="burgerBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
-        </div>
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#philosophy">Philosophy</a></li>
+        <li><a href="#status">Status</a></li>
+    </ul>
 
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#features">Features</a></li>
-            <li><a href="#philosophy">Philosophy</a></li>
-            <li><a href="#status">Status</a></li>
-        </ul>
+    <div class="nav-cta-wrap">
+        <a href="https://github.com/Stickytapeguy/Aura-Gallery" target="_blank" class="nav-cta">GitHub →</a>
+    </div>
+</nav>
 
-        <div class="nav-cta-wrap">
-            <a href="https://github.com/Stickytapeguy/Aura-Gallery" target="_blank" class="nav-cta">GitHub →</a><!-- update repo URL here if you rename the GitHub repo too -->
-        </div>
-    </nav>
+<!-- HERO SECTION -->
+<section class="hero" id="hero">
+    <div class="hero-badge" style="margin-bottom: 24px;"><span></span> In Development — Windows 10/11</div>
 
-    <section class="hero">
-        <div class="hero-badge" style="margin-bottom: 24px;"><span></span> In Development — Windows 10/11</div>
-
-        <div class="reveal" style="margin-bottom: 28px;">
-            <img src="void gallery.png" alt="Void Gallery Icon" style="width: 480px; height: 480px; display: block; margin: 0 auto 20px; border-radius: 48px;">
-            <h1 class="hero-title" style="margin-bottom: 0;">
-                <span class="grad">Void Gallery</span>
-            </h1>
-        </div>
-
-        <p class="hero-sub">
-            A clean, fast, ad-free photo and video gallery for Windows.
-            No OneDrive nagging. No Clipchamp pop-ups. Just your memories.
-        </p>
-        <div class="hero-buttons">
-            <a href="#" class="btn-primary">Download</a>
-            <a href="#features" class="btn-secondary">See features</a>
-            <a href="#" class="btn-donate">Donate</a>
-        </div>
-    </section>
-
-    <div class="screenshot-wrap reveal">
-        <div class="screenshot-frame">
-            <div class="screenshot-glow"></div>
-            Screenshot coming soon
-        </div>
+    <div class="reveal" style="margin-bottom: 28px;">
+        <img src="void gallery.png" alt="Void Frame Icon" style="width: 480px; height: 480px; display: block; margin: 0 auto 20px; border-radius: 48px;">
+        <h1 class="hero-title" style="margin-bottom: 0;">
+            <span class="grad">Void Frame</span>
+        </h1>
     </div>
 
-    <section class="features" id="features">
-        <div class="reveal">
-            <p class="section-label">What it does</p>
-            <h2 class="section-title">Built for people<br>who just want a gallery.</h2>
+    <p class="hero-sub">
+        A clean, fast, ad-free photo and video gallery for Windows.
+        No OneDrive nagging. No Clipchamp pop-ups. Just your memories.
+    </p>
+    <div class="hero-buttons">
+        <a href="#" class="btn-primary">Download</a>
+        <a href="#features" class="btn-secondary">See features</a>
+        <a href="#" class="btn-donate">Donate</a>
+    </div>
+</section>
+
+<!-- SCREENSHOT PREVIEW SECTION -->
+<div class="screenshot-wrap reveal">
+    <div class="screenshot-frame">
+        <div class="screenshot-glow"></div>
+        Screenshot coming soon
+    </div>
+</div>
+
+<!-- FEATURES SECTION -->
+<section class="features" id="features">
+    <div class="reveal">
+        <p class="section-label">What it does</p>
+        <h2 class="section-title">Built for people<br>who just want a gallery.</h2>
+    </div>
+    <div class="features-grid reveal">
+        <div class="feature-card">
+            <span class="feature-icon">🖼️</span>
+            <div class="feature-title">Photos & Videos</div>
+            <p class="feature-desc">View all your media in one place. Mixed or filtered — you choose. JPG, PNG, HEIC, MP4, MOV and more.</p>
         </div>
-        <div class="features-grid reveal">
-            <div class="feature-card">
-                <span class="feature-icon">🖼️</span>
-                <div class="feature-title">Photos & Videos</div>
-                <p class="feature-desc">View all your media in one place. Mixed or filtered — you choose. JPG, PNG, HEIC, MP4, MOV and more.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">📁</span>
-                <div class="feature-title">Folder Manager</div>
-                <p class="feature-desc">You pick exactly which folders to include. Nothing is loaded without your say-so. Ever.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">🎛️</span>
-                <div class="feature-title">Floating Panels</div>
-                <p class="feature-desc">Acrylic panels for navigation, actions, timeline and media. Clean, repositionable, out of the way.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">⚡</span>
-                <div class="feature-title">Fast Async Loading</div>
-                <p class="feature-desc">Folders scan in the background. The UI never freezes. Thousands of photos, no waiting.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">🌗</span>
-                <div class="feature-title">Light & Dark</div>
-                <p class="feature-desc">Follows your Windows theme automatically. Looks great either way.</p>
-            </div>
-            <div class="feature-card">
-                <span class="feature-icon">🚫</span>
-                <div class="feature-title">Zero Bloat</div>
-                <p class="feature-desc">No ads. No OneDrive. No Clipchamp. No subscriptions. No accounts. Just the app.</p>
-            </div>
+        <div class="feature-card">
+            <span class="feature-icon">📁</span>
+            <div class="feature-title">Folder Manager</div>
+            <p class="feature-desc">You pick exactly which folders to include. Nothing is loaded without your say-so. Ever.</p>
         </div>
-    </section>
+        <div class="feature-card">
+            <span class="feature-icon">🎛️</span>
+            <div class="feature-title">Floating Panels</div>
+            <p class="feature-desc">Acrylic panels for navigation, actions, timeline and media. Clean, repositionable, out of the way.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">⚡</span>
+            <div class="feature-title">Fast Async Loading</div>
+            <p class="feature-desc">Folders scan in the background. The UI never freezes. Thousands of photos, no waiting.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🌗</span>
+            <div class="feature-title">Light & Dark</div>
+            <p class="feature-desc">Follows your Windows theme automatically. Looks great either way.</p>
+        </div>
+        <div class="feature-card">
+            <span class="feature-icon">🚫</span>
+            <div class="feature-title">Zero Bloat</div>
+            <p class="feature-desc">No ads. No OneDrive. No Clipchamp. No subscriptions. No accounts. Just the app.</p>
+        </div>
+    </div>
+</section>
 
-    <section class="philosophy" id="philosophy">
-        <div class="philosophy-inner reveal">
-            <div class="philosophy-grid">
-                <div class="philosophy-text">
-                    <p class="section-label">Why it exists</p>
-                    <h2 class="section-title">Microsoft Photos got worse.<br>We got tired of it.</h2>
-                    <p>Windows used to have a great photo viewer. Then it became an ad for OneDrive and Clipchamp. Void Gallery is the alternative — inspired by Photos Legacy, built for people who just want to look at their photos.</p>
-                </div>
-                <ul class="philosophy-list">
-                    <li><span>🗂️</span><span>You control your folders. Nothing is auto-loaded from anywhere.</span></li>
-                    <li><span>☁️</span><span>No cloud required. Your photos stay on your PC.</span></li>
-                    <li><span>🔓</span><span>Open source under the MIT license. Free forever.</span></li>
-                    <li><span>🧩</span><span>Part of the Void suite — a family of clean Windows apps.</span></li>
-                </ul>
+<!-- PHILOSOPHY SECTION -->
+<section class="philosophy" id="philosophy">
+    <div class="philosophy-inner reveal">
+        <div class="philosophy-grid">
+            <div class="philosophy-text">
+                <p class="section-label">Why it exists</p>
+                <h2 class="section-title">Microsoft Photos got worse.<br>We got tired of it.</h2>
+                <p>Windows used to have a great photo viewer. Then it became an ad for OneDrive and Clipchamp. Void Frame is the alternative — inspired by Photos Legacy, built for people who just want to look at their photos.</p>
             </div>
+            <ul class="philosophy-list">
+                <li><span>🗂️</span><span>You control your folders. Nothing is auto-loaded from anywhere.</span></li>
+                <li><span>☁️</span><span>No cloud required. Your photos stay on your PC.</span></li>
+                <li><span>🔓</span><span>Open source under the MIT license. Free forever.</span></li>
+                <li><span>🧩</span><span>Part of the Void suite — a family of clean Windows apps.</span></li>
+            </ul>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section class="status" id="status">
-        <div class="reveal">
-            <p class="section-label">Development status</p>
-            <h2 class="section-title">What's built,<br>what's coming.</h2>
-        </div>
-        <div class="status-grid reveal">
-            <div class="status-item"><div class="status-dot dot-done"></div> Photo grid</div>
-            <div class="status-item"><div class="status-dot dot-done"></div> Video support</div>
-            <div class="status-item"><div class="status-dot dot-done"></div> Floating panels</div>
-            <div class="status-item"><div class="status-dot dot-done"></div> Filter by type</div>
-            <div class="status-item"><div class="status-dot dot-wip"></div> Folder manager</div>
-            <div class="status-item"><div class="status-dot dot-plan"></div> Single photo view</div>
-            <div class="status-item"><div class="status-dot dot-plan"></div> Fullscreen view</div>
-            <div class="status-item"><div class="status-dot dot-plan"></div> Timeline panel</div>
-            <div class="status-item"><div class="status-dot dot-plan"></div> External drives</div>
-            <div class="status-item"><div class="status-dot dot-plan"></div> Editor</div>
-        </div>
-    </section>
+<!-- STATUS SECTION -->
+<section class="status" id="status">
+    <div class="reveal">
+        <p class="section-label">Development status</p>
+        <h2 class="section-title">What's built,<br>what's coming.</h2>
+    </div>
+    <div class="status-grid reveal">
+        <div class="status-item"><div class="status-dot dot-done"></div> Photo grid</div>
+        <div class="status-item"><div class="status-dot dot-done"></div> Video support</div>
+        <div class="status-item"><div class="status-dot dot-done"></div> Floating panels</div>
+        <div class="status-item"><div class="status-dot dot-done"></div> Filter by type</div>
+        <div class="status-item"><div class="status-dot dot-wip"></div> Folder manager</div>
+        <div class="status-item"><div class="status-dot dot-plan"></div> Single photo view</div>
+        <div class="status-item"><div class="status-dot dot-plan"></div> Fullscreen view</div>
+        <div class="status-item"><div class="status-dot dot-plan"></div> Timeline panel</div>
+        <div class="status-item"><div class="status-dot dot-plan"></div> External drives</div>
+        <div class="status-item"><div class="status-dot dot-plan"></div> Editor</div>
+    </div>
+</section>
 
-    <footer class="footer">
-        <p>Thanks for this idea, OneDrive by MicroSlop! 💜</p>
-    </footer>
+<footer class="footer">
+    <p>Thanks for this idea, OneDrive by MicroSlop! 💜</p>
+</footer>
 
-    <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(e => {
-                if (e.isIntersecting) {
-                    e.target.classList.add('visible');
-                    observer.unobserve(e.target);
-                }
-            });
-        }, { threshold: 0.1 });
+<!-- SCRIPT ENGINES -->
+<script>
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+    }
+    window.addEventListener('beforeunload', () => {
+        window.scrollTo(0, 0);
+    });
 
-        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-        const burger = document.getElementById('burgerBtn');
-        const dock = document.querySelector('.nav-dock');
-
-        burger.addEventListener('click', () => {
-            dock.classList.toggle('open');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+            }
         });
-    </script>
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const burger = document.getElementById('burgerBtn');
+    const dock = document.querySelector('.nav-dock');
+
+    burger.addEventListener('click', () => {
+        dock.classList.toggle('open');
+    });
+
+    const thumb = document.getElementById('custom-scrollbar-thumb');
+    const track = document.getElementById('custom-scrollbar-track');
+    let isDragging = false;
+    let startY = 0;
+    let startScrollTop = 0;
+
+    function getScrollableElement() {
+        return document.scrollingElement || document.documentElement;
+    }
+
+    function updateScrollbarThumb() {
+        if (isDragging) return;
+        const scrollEl = getScrollableElement();
+        const scrollTop = window.scrollY || scrollEl.scrollTop;
+        const maxScroll = scrollEl.scrollHeight - window.innerHeight;
+        if (maxScroll <= 0) return;
+
+        const trackHeight = track.offsetHeight;
+        const thumbHeight = Math.max(40, (trackHeight / scrollEl.scrollHeight) * trackHeight);
+        const thumbTop = (scrollTop / maxScroll) * (trackHeight - thumbHeight);
+
+        thumb.style.height = `${thumbHeight}px`;
+        thumb.style.transform = `translate3d(0, ${thumbTop}px, 0)`;
+    }
+
+    window.addEventListener('scroll', updateScrollbarThumb, { passive: true });
+    window.addEventListener('resize', updateScrollbarThumb);
+    updateScrollbarThumb();
+
+    thumb.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        startY = e.clientY;
+        startScrollTop = window.scrollY || getScrollableElement().scrollTop;
+
+        document.documentElement.style.scrollBehavior = 'auto';
+
+        thumb.classList.add('dragging');
+        document.body.style.userSelect = 'none';
+        e.preventDefault();
+    });
+
+    window.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+
+        const scrollEl = getScrollableElement();
+        const maxScroll = scrollEl.scrollHeight - window.innerHeight;
+        if (maxScroll <= 0) return;
+
+        const deltaY = e.clientY - startY;
+        const trackHeight = track.offsetHeight;
+        const thumbHeight = thumb.offsetHeight || 40;
+        const availableTrack = trackHeight - thumbHeight;
+
+        if (availableTrack > 0) {
+            const scrollRatio = deltaY / availableTrack;
+            const targetScroll = startScrollTop + (scrollRatio * maxScroll);
+
+            window.scrollTo(0, targetScroll);
+            document.documentElement.scrollTop = targetScroll;
+            document.body.scrollTop = targetScroll;
+
+            const actualScroll = window.scrollY || scrollEl.scrollTop;
+            const thumbTop = (actualScroll / maxScroll) * availableTrack;
+            thumb.style.transform = `translate3d(0, ${thumbTop}px, 0)`;
+        }
+    });
+
+    window.addEventListener('mouseup', () => {
+        if (isDragging) {
+            isDragging = false;
+            thumb.classList.remove('dragging');
+            document.body.style.userSelect = '';
+            document.documentElement.style.scrollBehavior = 'smooth';
+            updateScrollbarThumb();
+        }
+    });
+
+    track.addEventListener('click', (e) => {
+        if (e.target === thumb) return;
+        const rect = track.getBoundingClientRect();
+        const clickY = e.clientY - rect.top;
+        const trackHeight = track.offsetHeight;
+        const scrollEl = getScrollableElement();
+        const maxScroll = scrollEl.scrollHeight - window.innerHeight;
+        const targetScroll = (clickY / trackHeight) * maxScroll;
+
+        window.scrollTo({ top: targetScroll, behavior: 'smooth' });
+    });
+
+    const sections = document.querySelectorAll('section');
+    const railTicks = document.querySelectorAll('.rail-tick');
+
+    const railObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const activeId = entry.target.getAttribute('id');
+                railTicks.forEach(tick => {
+                    const href = tick.getAttribute('href').replace('#', '');
+                    if (href === activeId) {
+                        tick.classList.add('active');
+                    } else {
+                        tick.classList.remove('active');
+                    }
+                });
+            }
+        });
+    }, { threshold: 0.4 });
+
+    sections.forEach(sec => railObserver.observe(sec));
+
+    class RegionBlob {
+        constructor(element, bounds) {
+            this.el = element;
+            this.bounds = bounds;
+
+            this.x = bounds.minX + Math.random() * (bounds.maxX - bounds.minX);
+            this.y = bounds.minY + Math.random() * (bounds.maxY - bounds.minY);
+
+            this.vx = (Math.random() - 0.5) * 1.5;
+            this.vy = (Math.random() - 0.5) * 1.5;
+
+            this.progress = 0;
+            this.speed = 0.0018 + Math.random() * 0.0012;
+
+            this.generateNextPath();
+            this.animate();
+        }
+
+        generateNextPath() {
+            this.p0 = { x: this.x, y: this.y };
+
+            const angle = Math.atan2(this.vy, this.vx) + (Math.random() - 0.5) * 1.0;
+            const distance = 80 + Math.random() * 140;
+
+            const targetX = this.p0.x + Math.cos(angle) * distance;
+            const targetY = this.p0.y + Math.sin(angle) * distance;
+
+            this.p3 = {
+                x: Math.min(Math.max(this.bounds.minX, targetX), this.bounds.maxX),
+                y: Math.min(Math.max(this.bounds.minY, targetY), this.bounds.maxY)
+            };
+
+            this.p1 = {
+                x: this.p0.x + this.vx * 40,
+                y: this.p0.y + this.vy * 40
+            };
+
+            this.p2 = {
+                x: this.p3.x - Math.cos(angle) * 40,
+                y: this.p3.y - Math.sin(angle) * 40
+            };
+
+            this.progress = 0;
+        }
+
+        getBezierPoint(t, p0, p1, p2, p3) {
+            const u = 1 - t;
+            const tt = t * t;
+            const uu = u * u;
+            const uuu = uu * u;
+            const ttt = tt * t;
+
+            return {
+                x: uuu * p0.x + 3 * uu * t * p1.x + 3 * u * tt * p2.x + ttt * p3.x,
+                y: uuu * p0.y + 3 * uu * t * p1.y + 3 * u * tt * p2.y + ttt * p3.y
+            };
+        }
+
+        animate() {
+            this.progress += this.speed;
+
+            if (this.progress >= 1) {
+                this.vx = (this.p3.x - this.p2.x) / 40;
+                this.vy = (this.p3.y - this.p2.y) / 40;
+
+                this.x = this.p3.x;
+                this.y = this.p3.y;
+
+                this.generateNextPath();
+            }
+
+            const pos = this.getBezierPoint(this.progress, this.p0, this.p1, this.p2, this.p3);
+            this.el.style.transform = `translate3d(${pos.x}px, ${pos.y}px, 0)`;
+
+            requestAnimationFrame(() => this.animate());
+        }
+    }
+
+    function initBlobs() {
+        const blobElements = document.querySelectorAll('.blob');
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        const regions = [
+            { minX: -100,      maxX: w * 0.35,  minY: -100,      maxY: h * 0.35 },
+            { minX: w * 0.55,  maxX: w - 200,   minY: -100,      maxY: h * 0.35 },
+            { minX: w * 0.3,   maxX: w * 0.6,   minY: h * 0.3,   maxY: h * 0.6  },
+            { minX: -100,      maxX: w * 0.35,  minY: h * 0.55,  maxY: h - 150  },
+            { minX: w * 0.55,  maxX: w - 200,   minY: h * 0.55,  maxY: h - 150  }
+        ];
+
+        blobElements.forEach((el, idx) => {
+            new RegionBlob(el, regions[idx % regions.length]);
+        });
+    }
+
+    window.addEventListener('load', initBlobs);
+</script>
 </body>
 </html>
